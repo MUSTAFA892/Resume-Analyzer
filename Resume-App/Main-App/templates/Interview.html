@@ -513,6 +513,53 @@
         .playback-speed-button:focus {
             outline: none;
         }
+
+
+
+        .go-home-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .go-home-btn:hover {
+            transform: scale(1.05);
+            background-color: #3a8ee5;
+        }
+
+
+        .go-home-btn-in {
+            position: right;
+            top: 20px;
+            left: 20px;
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .go-home-btn-in:hover {
+            transform: scale(1.05);
+            background-color: #3a8ee5;
+        }
+
+
     </style>
 </head>
 
@@ -527,6 +574,9 @@
     </div>
     <!-- Setup Modal -->
     <div id="setupModal" class="setup-modal">
+        <button class="go-home-btn shadow-lg" id="go-home-btn">
+            <i class="fas fa-home"></i> Home
+        </button>
         <div class="setup-modal-content">
             <h2>Interview Setup</h2>
             <input type="text" id="intervieweeName" placeholder="Your Name" required>
@@ -537,7 +587,14 @@
     <div id="mainContent" class="main-content">
         <div class="header">
             <h1>Interview Chatbot</h1>
+
+        </div>
+        
+        <div class='header'>
+            <button id="go-home-btn-in" class="go-home-btn-in shadow-lg">Home</button>
             <button id="resetChat" class="reset-button">Reset Interview</button>
+
+
         </div>
         <div class="chat-container" id="chatContainer"></div>
 
@@ -555,6 +612,18 @@
         </div>
     </div>
     <script>
+
+        // Home button
+        document.getElementById('go-home-btn').addEventListener('click', function() {
+            window.history.pushState({}, "", "/");
+            window.location.reload();
+        });
+
+        // Home button inside the playground
+        document.getElementById('go-home-btn-in').addEventListener('click', function() {
+            window.history.pushState({}, "", "/");
+            window.location.reload();
+        });
         // Initial load of chat history
         window.onload = function () {
             document.getElementById("setupModal").style.display = "flex";
