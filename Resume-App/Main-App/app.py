@@ -47,7 +47,7 @@ if not API_KEY:
 API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={API_KEY}"
 
 # Whisper Model
-Whisper_Model = whisper.load_model("base")
+Whisper_Model = whisper.load_model("tiny")
 
 #Gemini Client
 client = genai.Client(api_key=API_KEY)
