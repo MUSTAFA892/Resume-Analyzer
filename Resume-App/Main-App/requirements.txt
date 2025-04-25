@@ -13,5 +13,5 @@ openai-whisper
 gTTS
 flask_cors
 uuid
-PyAudio 
+#PyAudio 
 python-multipart 
