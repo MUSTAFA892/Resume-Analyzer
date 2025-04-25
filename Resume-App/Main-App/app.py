@@ -13,7 +13,9 @@ from catboost import CatBoostClassifier
 from dotenv import load_dotenv
 from google import genai
 from gtts import gTTS
-import whisper
+import instructor
+from groq import Groq   
+#import whisper
 import uuid
 
 
@@ -38,6 +40,18 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # Set upload folder in the Flask app config
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+#Getting the groq api key 
+
+api_key = os.getenv("GROQ_API")
+if not api_key:
+    print("Warning: GROQ_API environment variable not set. Transcription and action item extraction will not work.")
+    groq_client = None
+else:
+    groq_client = Groq(api_key=api_key)
+    groq_client_with_instructor = instructor.from_groq(groq_client, mode=instructor.Mode.JSON)
+
+
+
 # Load API key from environment variable (safer than hardcoding)
 API_KEY = os.getenv("GEMINI_API_KEY")  # Set this in your terminal or environment
 if not API_KEY:
@@ -46,8 +60,10 @@ if not API_KEY:
 # Gemini API URL
 API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={API_KEY}"
 
+
 # Whisper Model
-Whisper_Model = whisper.load_model("tiny")
+#Whisper_Model = whisper.load_model("tiny")
+
 
 #Gemini Client
 client = genai.Client(api_key=API_KEY)
@@ -503,9 +519,17 @@ def reset_chat():
 def transcribe_audio(file):
     filepath = f"./{file.filename}"
     file.save(filepath)
-    transcript = model.transcribe(filepath)
+    
+    # Open the audio file for reading in binary mode
+    with open(filepath, "rb") as audio_file:
+        # Call the Groq API for transcription
+        transcript = groq_client.audio.transcriptions.create(
+            model="whisper-large-v3",
+            file=audio_file
+        )
+    
     os.remove(filepath)
-    return transcript["text"]
+    return transcript['text']  # This returns the transcribed text from the response
 
 def get_chat_response(user_message):
     messages = load_messages()

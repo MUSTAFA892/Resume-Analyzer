@@ -9,9 +9,11 @@ pytesseract
 pdf2image
 requests
 google-genai
-openai-whisper
+#openai-whisper
 gTTS
+groq
 flask_cors
+instructor
 uuid
 #PyAudio 
 python-multipart 
