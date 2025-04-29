@@ -96,6 +96,7 @@ def extract_text_from_pdf(pdf_path):
     
     extracted_text = ""
     for i, image in enumerate(images):
+      
         text = pytesseract.image_to_string(image)
         extracted_text += f"\n--- Page {i+1} ---\n{text}\n"
     
@@ -527,9 +528,9 @@ def transcribe_audio(file):
             model="whisper-large-v3",
             file=audio_file
         )
-    
+
     os.remove(filepath)
-    return transcript['text']  # This returns the transcribed text from the response
+    return transcript.text # This returns the transcribed text from the response
 
 def get_chat_response(user_message):
     messages = load_messages()
