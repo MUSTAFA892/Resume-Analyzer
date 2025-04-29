@@ -455,6 +455,28 @@
         .playback-speed-button:focus {
             outline: none;
         }
+
+
+        .go-home-button {
+              position: fixed;
+              top: 20px;
+              left: 20px;
+              background-color: var(--accent-blue);
+              color: white;
+              border: none;
+              padding: 10px 20px;
+              border-radius: 8px;
+              z-index: 1000;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              transition: all 0.3s ease;
+          }
+  
+          .go-home-button:hover {
+              transform: scale(1.05);
+              background-color: #3a8ee5;
+          }
     </style>
 </head>
 
@@ -469,6 +491,9 @@
     </div>
     <!-- Setup Modal -->
     <div id="setupModal" class="setup-modal">
+        <button class="go-home-button shadow-lg" id="go-home-button">
+            <i class="fas fa-home"></i> Home
+        </button>
         <div class="setup-modal-content">
             <h2>Interview Setup</h2>
             <input type="text" id="intervieweeName" placeholder="Your Name" required>
@@ -585,6 +610,11 @@
                 }, 5000);
             }
         }
+
+        document.getElementById('go-home-button').addEventListener('click', function() {
+             window.history.pushState({}, "", "/");
+             window.location.reload();
+          });
 
         // Send text message
         async function sendMessage() {
